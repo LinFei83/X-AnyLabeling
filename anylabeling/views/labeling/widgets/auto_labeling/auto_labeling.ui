@@ -320,6 +320,13 @@
       </widget>
      </item>
      <item>
+      <widget class="QPushButton" name="button_preprocess_all">
+       <property name="text">
+        <string>预处理 (p)</string>
+       </property>
+      </widget>
+     </item>
+     <item>
       <widget class="QPushButton" name="toggle_preserve_existing_annotations">
           <property name="text">
               <string>Replace (On)</string>

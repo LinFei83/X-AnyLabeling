@@ -674,7 +674,7 @@ digit_shortcuts:
 | u                     | 取消组合选定的对象                     |
 | s                     | 隐藏选定的对象                         |
 | w                     | 显示选定的对象                         |
-| Alt + d               | 修改数字快捷键                           |
+| Alt + d               | 修改数字                            |
 | Alt + g               | 修改群组编号                           |
 | Ctrl + Delete         | 删除当前标签文件                    |
 | Ctrl + Shift + Delete | 删除当前图像文件                        |

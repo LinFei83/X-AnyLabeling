@@ -22,7 +22,7 @@ from anylabeling.services.auto_labeling.utils import calculate_rotation_theta
 
 from .model import Model
 from .types import AutoLabelingResult
-from .lru_cache import LRUCache
+from .persistent_cache import PersistentCache
 from .utils.general import Args
 from .engines.build_onnx_engine import OnnxBaseModel
 from .__base__.sam2 import SegmentAnything2ONNX
@@ -129,7 +129,7 @@ class GroundingSAM2(Model):
         # Cache for image embedding
         self.cache_size = 10
         self.preloaded_size = self.cache_size - 3
-        self.image_embedding_cache = LRUCache(self.cache_size)
+        self.image_embedding_cache = PersistentCache()
         self.current_image_embedding_cache = {}
 
         # Pre-inference worker

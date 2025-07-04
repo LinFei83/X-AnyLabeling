@@ -14,7 +14,7 @@ from anylabeling.views.labeling.shape import Shape
 from anylabeling.views.labeling.logger import logger
 from anylabeling.views.labeling.utils.opencv import qt_img_to_rgb_cv_img
 
-from .lru_cache import LRUCache
+from .persistent_cache import PersistentCache
 from .model import Model
 from .types import AutoLabelingResult
 
@@ -257,7 +257,7 @@ class GeCo(Model):
         # Cache for image embedding
         self.cache_size = 10
         self.preloaded_size = self.cache_size - 3
-        self.image_embedding_cache = LRUCache(self.cache_size)
+        self.image_embedding_cache = PersistentCache()
 
         # Pre-inference worker
         self.pre_inference_thread = None

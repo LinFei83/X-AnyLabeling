@@ -19,7 +19,7 @@ from anylabeling.views.labeling.utils.opencv import (
 )
 from anylabeling.services.auto_labeling.utils import calculate_rotation_theta
 
-from .lru_cache import LRUCache
+from .persistent_cache import PersistentCache
 from .model import Model
 from .types import AutoLabelingResult
 from .__base__.clip import ChineseClipONNX
@@ -242,6 +242,7 @@ class SAM_HQ(Model):
             "button_add_rect",
             "button_clear",
             "button_finish_object",
+            "button_preprocess_all",
         ]
         output_modes = {
             "polygon": QCoreApplication.translate("Model", "Polygon"),
@@ -295,7 +296,7 @@ class SAM_HQ(Model):
         # Cache for image embedding
         self.cache_size = 10
         self.preloaded_size = self.cache_size - 3
-        self.image_embedding_cache = LRUCache(self.cache_size)
+        self.image_embedding_cache = PersistentCache()
 
         # Pre-inference worker
         self.pre_inference_thread = None
@@ -441,8 +442,14 @@ class SAM_HQ(Model):
             # Use cached image embedding if possible
             cached_data = self.image_embedding_cache.get(filename)
             if cached_data is not None:
+                print(f"[缓存命中] 使用缓存的编码数据: {filename}")
                 image_embedding = cached_data
             else:
+                print(f"[缓存未命中] 重新计算编码: {filename}")
+                # 检查缓存信息
+                cache_info = self.image_embedding_cache.get_cache_info()
+                print(f"[缓存状态] 文件数: {cache_info['files']}, 大小: {cache_info['size_mb']:.2f}MB")
+                
                 if self.stop_inference:
                     return AutoLabelingResult([], replace=False)
                 image_embedding = self.model.encode(cv_image)
@@ -450,6 +457,7 @@ class SAM_HQ(Model):
                     filename,
                     image_embedding,
                 )
+                print(f"[缓存保存] 编码已保存到缓存: {filename}")
             if self.stop_inference:
                 return AutoLabelingResult([], replace=False)
             masks = self.model.predict_masks(image_embedding, self.marks)

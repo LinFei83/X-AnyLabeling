@@ -196,6 +196,10 @@ class AutoLabelingWidget(QWidget):
         )
         self.button_finish_object.setShortcut("F")
 
+        # --- Configuration for: button_preprocess_all ---
+        self.button_preprocess_all.clicked.connect(self.preprocess_all_images)
+        self.button_preprocess_all.setShortcut("P")
+
         # --- Configuration for: toggle_preserve_existing_annotations ---
         self.toggle_preserve_existing_annotations.setChecked(False)
         self.toggle_preserve_existing_annotations.setCheckable(True)
@@ -665,6 +669,7 @@ class AutoLabelingWidget(QWidget):
             "button_add_rect",
             "button_clear",
             "button_finish_object",
+            "button_preprocess_all",
             "button_send",
             "edit_text",
             "edit_conf",
@@ -853,3 +858,195 @@ class AutoLabelingWidget(QWidget):
                 self.on_preserve_existing_annotations_state_changed(
                     preserve_annotations_modes[mode]
                 )
+
+    def preprocess_all_images(self):
+        """预处理所有图像，生成并缓存编码结果"""
+        from PyQt5.QtWidgets import QProgressDialog, QMessageBox
+        from PyQt5.QtCore import Qt, QTimer
+        import os.path as osp
+        
+        # 检查是否有图像列表
+        if not hasattr(self.parent, 'image_list') or not self.parent.image_list:
+            QMessageBox.warning(
+                self, 
+                self.tr("警告"), 
+                self.tr("请先加载图像文件夹！")
+            )
+            return
+        
+        # 检查是否加载了支持的SAM模型
+        if (not self.model_manager.loaded_model_config or 
+            self.model_manager.loaded_model_config.get("type") not in [
+                "segment_anything", "segment_anything_2", "sam_med2d", 
+                "sam_hq", "efficientvit_sam", "edge_sam"
+            ]):
+            QMessageBox.warning(
+                self, 
+                self.tr("警告"), 
+                self.tr("请先加载支持的SAM模型！")
+            )
+            return
+        
+        # 确认对话框
+        reply = QMessageBox.question(
+            self,
+            self.tr("确认预处理"),
+            self.tr("是否开始预处理所有图像？这将为所有图像生成编码并保存到磁盘缓存中。"),
+            QMessageBox.Yes | QMessageBox.No,
+            QMessageBox.No
+        )
+        
+        if reply != QMessageBox.Yes:
+            return
+        
+        # 创建进度对话框
+        image_list = self.parent.image_list
+        self.preprocess_progress = QProgressDialog(
+            self.tr("正在预处理图像..."), 
+            self.tr("取消"), 
+            0, 
+            len(image_list), 
+            self
+        )
+        self.preprocess_progress.setWindowModality(Qt.WindowModal)
+        self.preprocess_progress.setWindowTitle(self.tr("预处理进度"))
+        self.preprocess_progress.setMinimumWidth(400)
+        self.preprocess_progress.setMinimumHeight(150)
+        
+        # 设置样式
+        self.preprocess_progress.setStyleSheet("""
+        QProgressDialog {
+            background-color: rgba(255, 255, 255, 0.95);
+            border-radius: 12px;
+            min-width: 280px;
+            min-height: 120px;
+            padding: 20px;
+        }
+        QProgressBar {
+            border: none;
+            border-radius: 4px;
+            background-color: rgba(0, 0, 0, 0.05);
+            text-align: center;
+            color: #1d1d1f;
+            font-size: 13px;
+            min-height: 20px;
+            max-height: 20px;
+            margin: 16px 0;
+        }
+        QProgressBar::chunk {
+            background: qlineargradient(x1:0, y1:0, x2:1, y2:0,
+                stop:0 #0066FF,
+                stop:0.5 #00A6FF,
+                stop:1 #0066FF);
+            border-radius: 3px;
+        }
+        QLabel {
+            color: #1d1d1f;
+            font-size: 13px;
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+        QPushButton {
+            background-color: rgba(255, 255, 255, 0.8);
+            border: 0.5px solid rgba(0, 0, 0, 0.1);
+            border-radius: 6px;
+            font-weight: 500;
+            font-size: 13px;
+            color: #0066FF;
+            min-width: 82px;
+            height: 36px;
+            padding: 0 16px;
+            margin-top: 16px;
+        }
+        QPushButton:hover {
+            background-color: rgba(0, 0, 0, 0.05);
+        }
+        """)
+        
+        # 初始化处理变量
+        self.preprocess_index = 0
+        self.preprocess_cancel = False
+        
+        # 连接取消信号
+        self.preprocess_progress.canceled.connect(self.cancel_preprocess)
+        
+        # 显示进度对话框
+        self.preprocess_progress.show()
+        
+        # 开始处理第一张图像
+        QTimer.singleShot(100, self.process_next_image)
+    
+    def cancel_preprocess(self):
+        """取消预处理"""
+        self.preprocess_cancel = True
+        
+    def process_next_image(self):
+        """处理下一张图像"""
+        from anylabeling.views.labeling.utils.opencv import qt_img_to_rgb_cv_img
+        from PyQt5.QtWidgets import QMessageBox
+        from PyQt5.QtCore import QTimer
+        import os.path as osp
+        
+        if self.preprocess_cancel:
+            self.preprocess_progress.close()
+            return
+            
+        image_list = self.parent.image_list
+        
+        if self.preprocess_index >= len(image_list):
+            # 处理完成
+            self.preprocess_progress.close()
+            QMessageBox.information(
+                self,
+                self.tr("完成"),
+                self.tr("预处理完成！已为 {} 张图像生成编码缓存。").format(len(image_list))
+            )
+            return
+        
+        # 获取当前图像
+        current_file = image_list[self.preprocess_index]
+        self.preprocess_progress.setLabelText(
+            self.tr("正在处理: {} ({}/{})").format(
+                osp.basename(current_file), 
+                self.preprocess_index + 1, 
+                len(image_list)
+            )
+        )
+        self.preprocess_progress.setValue(self.preprocess_index)
+        
+        try:
+            # 检查是否已经缓存
+            model = self.model_manager.loaded_model_config.get("model")
+            if model and hasattr(model, 'image_embedding_cache'):
+                if not model.image_embedding_cache.find(current_file):
+                    print(f"[预处理] 开始处理: {current_file}")
+                    # 加载图像并生成编码
+                    image = model.load_image_from_filename(current_file)
+                    if image is not None:
+                        cv_image = qt_img_to_rgb_cv_img(image)
+                        # 生成编码
+                        if hasattr(model, 'model') and hasattr(model.model, 'encode'):
+                            image_embedding = model.model.encode(cv_image)
+                        elif hasattr(model, 'encoder_model'):
+                            image_embedding = model.encoder_model(cv_image)
+                        else:
+                            # 跳过不支持的模型
+                            print(f"[预处理] 跳过不支持的模型: {type(model)}")
+                            pass
+                        
+                        # 保存到缓存
+                        if 'image_embedding' in locals():
+                            model.image_embedding_cache.put(current_file, image_embedding)
+                            print(f"[预处理] 编码已缓存: {current_file}")
+                        else:
+                            print(f"[预处理] 编码生成失败: {current_file}")
+                else:
+                    print(f"[预处理] 已存在缓存，跳过: {current_file}")
+        
+        except Exception as e:
+            # 忽略单个图像的错误，继续处理下一张
+            print(f"处理图像 {current_file} 时出错: {e}")
+        
+        # 处理下一张图像
+        self.preprocess_index += 1
+        QTimer.singleShot(50, self.process_next_image)

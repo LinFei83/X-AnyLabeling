@@ -18,7 +18,7 @@ from anylabeling.views.labeling.utils.opencv import (
 
 
 from .engines.build_onnx_engine import OnnxBaseModel
-from .lru_cache import LRUCache
+from .persistent_cache import PersistentCache
 from .types import AutoLabelingResult
 from .__base__.sam2 import SegmentAnything2ONNX
 from .__base__.yolo import YOLO
@@ -145,7 +145,7 @@ class YOLOv8SegmentAnything2(YOLO):
         # Cache for image embedding
         self.cache_size = 10
         self.preloaded_size = self.cache_size - 3
-        self.image_embedding_cache = LRUCache(self.cache_size)
+        self.image_embedding_cache = PersistentCache()
         self.current_image_embedding_cache = {}
 
         # Pre-inference worker

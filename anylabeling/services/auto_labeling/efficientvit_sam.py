@@ -20,7 +20,7 @@ from anylabeling.views.labeling.utils.opencv import (
 )
 from anylabeling.services.auto_labeling.utils import calculate_rotation_theta
 
-from .lru_cache import LRUCache
+from .persistent_cache import PersistentCache
 from .model import Model
 from .types import AutoLabelingResult
 
@@ -217,6 +217,7 @@ class EfficientViT_SAM(Model):
             "button_add_rect",
             "button_clear",
             "button_finish_object",
+            "button_preprocess_all",
         ]
         output_modes = {
             "polygon": QCoreApplication.translate("Model", "Polygon"),
@@ -269,7 +270,7 @@ class EfficientViT_SAM(Model):
         # Cache for image embedding
         self.cache_size = 10
         self.preloaded_size = self.cache_size - 3
-        self.image_embedding_cache = LRUCache(self.cache_size)
+        self.image_embedding_cache = PersistentCache()
 
         # Pre-inference worker
         self.pre_inference_thread = None

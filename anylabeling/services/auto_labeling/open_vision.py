@@ -26,7 +26,7 @@ from anylabeling.services.auto_labeling.utils import calculate_rotation_theta
 
 from .model import Model
 from .types import AutoLabelingResult
-from .lru_cache import LRUCache
+from .persistent_cache import PersistentCache
 from .__base__.sam2 import SegmentAnything2ONNX
 
 try:
@@ -153,7 +153,7 @@ class OpenVision(Model):
         # Cache for image embedding
         self.cache_size = 1
         self.preloaded_size = 1
-        self.image_embedding_cache = LRUCache(self.cache_size)
+        self.image_embedding_cache = PersistentCache()
 
         # Pre-inference worker
         self.pre_inference_thread = None

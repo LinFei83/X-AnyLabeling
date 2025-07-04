@@ -351,6 +351,50 @@ Results have been saved to:
         <source>Replace (On)</source>
         <translation>标签覆盖（开启）</translation>
     </message>
+    <message>
+        <source>警告</source>
+        <translation>警告</translation>
+    </message>
+    <message>
+        <source>请先加载图像文件夹！</source>
+        <translation>请先加载图像文件夹！</translation>
+    </message>
+    <message>
+        <source>请先加载支持的SAM模型！</source>
+        <translation>请先加载支持的SAM模型！</translation>
+    </message>
+    <message>
+        <source>确认预处理</source>
+        <translation>确认预处理</translation>
+    </message>
+    <message>
+        <source>是否开始预处理所有图像？这将为所有图像生成编码并保存到磁盘缓存中。</source>
+        <translation>是否开始预处理所有图像？这将为所有图像生成编码并保存到磁盘缓存中。</translation>
+    </message>
+    <message>
+        <source>正在预处理图像...</source>
+        <translation>正在预处理图像...</translation>
+    </message>
+    <message>
+        <source>取消</source>
+        <translation>取消</translation>
+    </message>
+    <message>
+        <source>预处理进度</source>
+        <translation>预处理进度</translation>
+    </message>
+    <message>
+        <source>正在处理: {} ({}/{})</source>
+        <translation>正在处理: {} ({}/{})</translation>
+    </message>
+    <message>
+        <source>完成</source>
+        <translation>完成</translation>
+    </message>
+    <message>
+        <source>预处理完成！已为 {} 张图像生成编码缓存。</source>
+        <translation>预处理完成！已为 {} 张图像生成编码缓存。</translation>
+    </message>
 </context>
 <context>
     <name>BatchProcessDialog</name>

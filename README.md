@@ -4,7 +4,7 @@
       <img alt="X-AnyLabeling" height="200px" src="https://github.com/user-attachments/assets/0714a182-92bd-4b47-b48d-1c5d7c225176"></a>
   </p>
 
-[English](README.md) | [简体中文](README_zh-CN.md)
+[简体中文](README_zh-CN.md) | [English](README.md)
 
 </div>
 
@@ -25,93 +25,95 @@
 </br>
 
 <details>
-<summary><strong>Text/Visual Prompting and Prompt-free for Detection & Segmentation</strong></summary>
+<summary><strong>基于文本/视觉提示或免提示的检测和分割统一模型</strong></summary>
 
 <video src="https://github.com/user-attachments/assets/52cbdb5d-cc60-4be5-826f-903ea4330ca8" width="100%" controls>
 </video>
 </details>
 
 <details>
-<summary><strong>Detect Anything</strong></summary>
+<summary><strong>检测一切</strong></summary>
 
 <img src="https://github.com/user-attachments/assets/7f43bcec-96fd-48d1-bd36-9e5a440a66f6" width="100%" />
 </details>
 
 <details>
-<summary><strong>Segment Anything</strong></summary>
+<summary><strong>分割一切</strong></summary>
 
 <img src="https://github.com/user-attachments/assets/208dc9ed-b8c9-4127-9e5b-e76f53892f03" width="100%" />
 </details>
 
 <details>
-<summary><strong>Chatbot</strong></summary>
+<summary><strong>聊天机器人</strong></summary>
 
 <img src="https://github.com/user-attachments/assets/56c9a20b-c836-47aa-8b54-bad5bb99b735" width="100%" />
 </details>
 
 <details>
-<summary><strong>VQA</strong></summary>
+<summary><strong>视觉问答</strong></summary>
 
 <video src="https://github.com/user-attachments/assets/92807672-f101-475b-b790-9caa1c31da05" width="100%" controls>
 </video>
 </details>
 
 
-## 🥳 What's New
+## 🥳 新功能
 
-- Bump version to [3.1.0](https://github.com/CVHub520/X-AnyLabeling/releases/tag/v3.1.0)
-- For more details, please refer to the [CHANGELOG](./CHANGELOG.md)
+- X-AnyLabeling [v3.1.0](https://github.com/CVHub520/X-AnyLabeling/releases/tag/v3.1.0) 最新版本发布
+- 更多详情，请参考[更新日志](./CHANGELOG.md)
 
 
-## X-AnyLabeling
+## 简介
 
-**X-AnyLabeling** is a powerful annotation tool that integrates an AI engine for fast and automatic labeling. It's designed for multi-modal data engineers, offering industrial-grade solutions for complex tasks.
+**X-AnyLabeling** 是一款基于AI推理引擎和丰富功能特性于一体的强大辅助标注工具，其专注于实际应用，致力于为多模态数据工程师提供工业级的一站式解决方案，可自动快速进行各种复杂任务的标定。
 
-## Features
+
+## 新特性
 
 <img src="https://github.com/user-attachments/assets/c65db18f-167b-49e8-bea3-fcf4b43a8ffd" width="100%" />
 
-- Processes both `images` and `videos`.
-- Accelerates inference with `GPU` support.
-- Allows custom models and secondary development.
-- Supports one-click inference for all images in the current task.
-- Enable import/export for formats like COCO, VOC, YOLO, DOTA, MOT, MASK, PPOCR, VLM-R1.
-- Handles tasks like `classification`, `detection`, `segmentation`, `caption`, `rotation`, `tracking`, `estimation`, `ocr` and so on.
-- Supports diverse annotation styles: `polygons`, `rectangles`, `rotated boxes`, `circles`, `lines`, `points`, and annotations for `text detection`, `recognition`, and `KIE`.
+- 支持`GPU`加速推理。
+- 支持一键预测所有图像。
+- 支持`图像`和`视频`处理。
+- 支持自定义模型和二次开发。
+- 支持一键导入和导出多种标签格式，如 COCO\VOC\YOLO\DOTA\MOT\MASK\PPOCR\VLM-R1 等；
+- 支持多种图像标注样式，包括 `多边形`、`矩形`、`旋转框`、`圆形`、`线条`、`点`，以及 `文本检测`、`识别` 和 `KIE` 标注；
+- 支持各类视觉任务，如`图像分类`、`目标检测`、`实例分割`、`姿态估计`、`旋转检测`、`多目标跟踪`、`光学字符识别`、`图像文本描述`、`车道线检测`、`分割一切`等。
 
 
-### Model library
+### 模型库
 
-| **Task Category** | **Supported Models** |
+| **任务类别** | **支持模型** |
 | :--- | :--- |
-| 🖼️ Image Classification | YOLOv5-Cls, YOLOv8-Cls, YOLO11-Cls, InternImage, PULC |
-| 🎯 Object Detection | YOLOv5/6/7/8/9/10, YOLO11/12, YOLOX, YOLO-NAS, D-FINE, DAMO-YOLO, Gold_YOLO, RT-DETR, RF-DETR |
-| 🖌️ Instance Segmentation | YOLOv5-Seg, YOLOv8-Seg, YOLO11-Seg, Hyper-YOLO-Seg |
-| 🏃 Pose Estimation | YOLOv8-Pose, YOLO11-Pose, DWPose, RTMO |
-| 👣 Tracking | Bot-SORT, ByteTrack |
-| 🔄 Rotated Object Detection | YOLOv5-Obb, YOLOv8-Obb, YOLO11-Obb |
-| 📏 Depth Estimation | Depth Anything |
-| 🧩 Segment Anything | SAM, SAM-HQ, SAM-Med2D, EdgeSAM, EfficientViT-SAM, MobileSAM, 
-| ✂️ Image Matting | RMBG 1.4/2.0 |
-| 💡 Proposal | UPN |
-| 🏷️ Tagging | RAM, RAM++ |
-| 📄 OCR | PP-OCR |
-| 🗣️ VLM | Florence2 |
-| 🛣️ Land Detection | CLRNet |
-| 📍 Grounding | CountGD, GeCO, Grunding DINO, YOLO-World, YOLOE |
-| 📚 Other | 👉 [model_zoo](./docs/en/model_zoo.md) 👈 |
+| 🖼️ **图像分类** | YOLOv5-Cls, YOLOv8-Cls, YOLO11-Cls, InternImage, PULC |
+| 🎯 **目标检测** | YOLOv5/6/7/8/9/10, YOLO11/12, YOLOX, YOLO-NAS, D-FINE, DAMO-YOLO, Gold_YOLO, RT-DETR, RF-DETR |
+| 🖌️ **实例分割** | YOLOv5-Seg, YOLOv8-Seg, YOLO11-Seg, Hyper-YOLO-Seg |
+| 🏃 **姿态估计** | YOLOv8-Pose, YOLO11-Pose, DWPose, RTMO |
+| 👣 **目标跟踪** | Bot-SORT, ByteTrack |
+| 🔄 **旋转目标检测** | YOLOv5-Obb, YOLOv8-Obb, YOLO11-Obb |
+| 📏 **深度估计** | Depth Anything |
+| 🧩 **分割一切** | SAM, SAM-HQ, SAM-Med2D, EdgeSAM, EfficientViT-SAM, MobileSAM |
+| ✂️ **图像抠图** | RMBG 1.4/2.0 |
+| 💡 **候选框提取** | UPN |
+| 🏷️ **图像标记** | RAM, RAM++ |
+| 📄 **光学字符识别** | PP-OCR |
+| 🗣️ **视觉语言模型** | Florence2 |
+| 🛣️ **车道线检测** | CLRNet |
+| 📍 **Grounding** | CountGD, GeCO, Grunding DINO, YOLO-World, YOLOE |
+| 📚 **其他** | 👉 [model_zoo](./docs/en/model_zoo.md) 👈 |
 
 
-## Docs
+## 文档
 
-1. [Installation & Quickstart](./docs/en/get_started.md)
-2. [Usage](./docs/en/user_guide.md)
-3. [Customize a model](./docs/en/custom_model.md)
-4. [Chatbot](./docs/en/chatbot.md)
-5. [VQA](./docs/en/vqa.md)
+1. [安装文档](./docs/zh_cn/get_started.md)
+2. [用户手册](./docs/zh_cn/user_guide.md)
+3. [自定义模型](./docs/zh_cn/custom_model.md)
+4. [常见问题答疑](./docs/zh_cn/faq.md)
+5. [聊天机器人](./docs/zh_cn/chatbot.md)
+6. [视觉问答](./docs/zh_cn/vqa.md)
 
 
-## Examples
+## 示例
 
 - [Classification](./examples/classification/)
   - [Image-Level](./examples/classification/image-level/README.md)
@@ -146,30 +148,35 @@
   - [GeCo](./examples/counting/geco/README.md)
 
 
-## Contribute
+## 赞助
 
-We believe in open collaboration! **X‑AnyLabeling** continues to grow with the support of the community. Whether you're fixing bugs, improving documentation, or adding new features, your contributions make a real impact.
-
-To get started, please read our [Contributing Guide](./CONTRIBUTING.md) and make sure to agree to the [Contributor License Agreement (CLA)](./CLA.md) before submitting a pull request.
-
-If you find this project helpful, please consider giving it a ⭐️ star! Have questions or suggestions? Open an [issue](https://github.com/CVHub520/X-AnyLabeling/issues) or email us at cv_hub@163.com.
-
-A huge thank you 🙏 to everyone helping to make X‑AnyLabeling better.
+| **微信支付** | **支付宝** |
+| :---: | :---: |
+| <img src="https://github.com/user-attachments/assets/0178cf76-3627-426e-8432-ec031c9278ae" width="200px" /> | <img src="https://github.com/user-attachments/assets/87544ff8-3560-4696-b035-1fd26ecd162b" width="200px" /> |
 
 
-## License
-
-This project is licensed under the [GPL-3.0 license](./LICENSE) and is only free to use for personal non-commercial purposes. For academic, research, or educational use, it is also free but requires registration via this form [here](https://forms.gle/MZCKhU7UJ4TRSWxR7). If you intend to use this project for commercial purposes or within a company, please contact cv_hub@163.com to obtain a commercial license.
+感谢您的支持！
 
 
-## Acknowledgement
+## 贡献指南
 
-I extend my heartfelt thanks to the developers and contributors of [AnyLabeling](https://github.com/vietanhdev/anylabeling), [LabelMe](https://github.com/wkentaro/labelme), [LabelImg](https://github.com/tzutalin/labelIm), [roLabelImg](https://github.com/cgvict/roLabelImg), [PPOCRLabel](https://github.com/PFCCLab/PPOCRLabel) and [CVAT](https://github.com/opencv/cvat), whose work has been crucial to the success of this project.
+我们欢迎社区协作！**X‑AnyLabeling** 项目的成长离不开开发者们的共同参与，无论是修复 Bug、优化文档、还是添加新功能，您的贡献都非常宝贵。
+
+在参与前请阅读我们的 [贡献指南](./CONTRIBUTING.md)，并在提交 Pull Request 前确认您已同意 [贡献者许可协议 (CLA)](./CLA.md)。
+
+如果你觉得这个项目有帮助，请点亮右上角的⭐星标⭐。如有任何问题或疑问，欢迎[创建 issue](https://github.com/CVHub520/X-AnyLabeling/issues) 或发送邮件至 cv_hub@163.com。
+
+衷心感谢每一位为项目贡献力量的朋友 🙏
 
 
-## Citing
+## 许可
 
-If you use this software in your research, please cite it as below:
+本项目遵循 [GPL-3.0 license](./LICENSE) 协议，个人非商业用途可免费使用。若用于学术、科研或教学目的，也可免费使用，但请在[此处](https://forms.gle/MZCKhU7UJ4TRSWxR7)填写登记表。如计划将本项目用于商业或企业环境，请务必联系微信申请商业授权: `ww10874`。
+
+
+## 引用
+
+如果您在研究中使用了这个软件，请按照以下方式引用它：
 
 ```
 @misc{X-AnyLabeling,
