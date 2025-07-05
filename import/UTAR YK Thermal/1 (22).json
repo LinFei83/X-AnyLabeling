@@ -3,6 +3,7 @@
   "flags": {},
   "shapes": [
     {
+      "kie_linking": [],
       "label": "body",
       "score": null,
       "points": [
@@ -408,12 +409,12 @@
       "difficult": false,
       "shape_type": "polygon",
       "flags": {},
-      "attributes": {},
-      "kie_linking": []
+      "attributes": {}
     }
   ],
   "imagePath": "1 (22).jpg",
   "imageData": null,
   "imageHeight": 203,
-  "imageWidth": 184
+  "imageWidth": 184,
+  "description": ""
 }

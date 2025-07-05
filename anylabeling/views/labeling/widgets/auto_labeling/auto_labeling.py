@@ -199,6 +199,11 @@ class AutoLabelingWidget(QWidget):
         # --- Configuration for: button_preprocess_all ---
         self.button_preprocess_all.clicked.connect(self.preprocess_all_images)
         self.button_preprocess_all.setShortcut("P")
+        self.button_preprocess_all.setStyleSheet(get_normal_button_style())
+
+        # --- Configuration for: button_clear_cache ---
+        self.button_clear_cache.clicked.connect(self.clear_cache)
+        self.button_clear_cache.setStyleSheet(get_normal_button_style())
 
         # --- Configuration for: toggle_preserve_existing_annotations ---
         self.toggle_preserve_existing_annotations.setChecked(False)
@@ -670,6 +675,7 @@ class AutoLabelingWidget(QWidget):
             "button_clear",
             "button_finish_object",
             "button_preprocess_all",
+            "button_clear_cache",
             "button_send",
             "edit_text",
             "edit_conf",
@@ -1050,3 +1056,45 @@ class AutoLabelingWidget(QWidget):
         # 处理下一张图像
         self.preprocess_index += 1
         QTimer.singleShot(50, self.process_next_image)
+
+    def clear_cache(self):
+        """清理缓存目录"""
+        from PyQt5.QtWidgets import QMessageBox
+        import shutil
+        import os
+        
+        cache_dir = "/tmp/xanylabeling_cache"
+        
+        # 确认对话框
+        reply = QMessageBox.question(
+            self,
+            self.tr("确认清理缓存"),
+            self.tr("是否确认清理缓存目录？\n路径: {}").format(cache_dir),
+            QMessageBox.Yes | QMessageBox.No,
+            QMessageBox.No
+        )
+        
+        if reply != QMessageBox.Yes:
+            return
+        
+        try:
+            if os.path.exists(cache_dir):
+                # 删除整个目录
+                shutil.rmtree(cache_dir)
+                QMessageBox.information(
+                    self,
+                    self.tr("成功"),
+                    self.tr("缓存目录已清理完成！")
+                )
+            else:
+                QMessageBox.information(
+                    self,
+                    self.tr("提示"),
+                    self.tr("缓存目录不存在，无需清理。")
+                )
+        except Exception as e:
+            QMessageBox.critical(
+                self,
+                self.tr("错误"),
+                self.tr("清理缓存时发生错误：{}").format(str(e))
+            )

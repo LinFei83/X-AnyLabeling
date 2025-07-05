@@ -16,3 +16,5 @@ anylabeling/data
 anylabeling/app_info.py-*
 zipped_models/*
 venv/
+*.pkl
+import/*

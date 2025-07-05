@@ -44,6 +44,7 @@ class SegmentAnything(Model):
             "button_clear",
             "button_finish_object",
             "button_preprocess_all",
+            "button_clear_cache",
         ]
         output_modes = {
             "polygon": QCoreApplication.translate("Model", "Polygon"),

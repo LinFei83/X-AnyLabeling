@@ -327,6 +327,13 @@
       </widget>
      </item>
      <item>
+      <widget class="QPushButton" name="button_clear_cache">
+       <property name="text">
+        <string>清理缓存</string>
+       </property>
+      </widget>
+     </item>
+     <item>
       <widget class="QPushButton" name="toggle_preserve_existing_annotations">
           <property name="text">
               <string>Replace (On)</string>
